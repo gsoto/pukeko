@@ -1,43 +1,23 @@
-package com.gsoto.pukeko
-
-abstract class Half {
-  protected val opposite: Half
-  def connectsWith(halve: Half): Boolean = halve == opposite
-}
-
-case class RotatedPiece(id: Int, up: Half, right: Half, down: Half, left: Half) {
-  lazy val rotations: List[RotatedPiece] =
-    List(
-      this,
-      RotatedPiece(id, right, down, left, up),
-      RotatedPiece(id, down, left, up, right),
-      RotatedPiece(id, left, up, right, down)
-    )
-
-  def toString(row: Int): String = {
-    row match {
-      case 1 => f"\u250c$id%02d\u2500\u2500\u2500\u2500\u2500\u2510"
-      case 2 => s"\u2502   $up   \u2502"
-      case 3 => s"\u2502 $left   $right \u2502"
-      case 4 => s"\u2502   $down   \u2502"
-      case 5 => s"\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518"
-    }
-  }
-}
-
-object RotatedPiece {
-  val widthChars = 9
-  val heightChars = 5
-}
+package dev.gsoto.pukeko
 
 object PuzzleSolver {
+
+  /**
+   * A position (column, row) in the board where a piece should be placed.
+   * column number goes up to the right
+   * row number goes up
+   */
   type Position = (Int, Int)
 
-  def solutions(pieces: List[RotatedPiece], positions: List[Position]): List[List[((Int, Int), RotatedPiece)]] = {
+  /**
+   * Finds all solutions for placing a list of pieces into a list of positions, ensuring their halves match
+   * @return The list of solutions, each one as a list of piece-position pairs
+   */
+  def solutions(pieces: List[Piece], positions: List[Position]): List[List[(Position, Piece)]] = {
     solutions(pieces, positions, Nil)
   }
 
-  private def solutions(pieces: List[RotatedPiece], positions: List[Position], partialSolution: List[(Position, RotatedPiece)]): List[List[(Position, RotatedPiece)]] = {
+  private def solutions(pieces: List[Piece], positions: List[Position], partialSolution: List[(Position, Piece)]): List[List[(Position, Piece)]] = {
     if (positions.isEmpty) {
       List(partialSolution)
     }
@@ -57,20 +37,21 @@ object PuzzleSolver {
   }
 
   /**
-   * Does piece fit into position for partialSolution?
+   * Does piece fit into position for a given partialSolution?
    */
-  private def fits(piece: RotatedPiece, position: Position, partialSolution: List[(Position, RotatedPiece)]): Boolean = {
-    val up = (position._1, position._2 - 1)
-    val right = (position._1 + 1, position._2)
-    val down = (position._1, position._2 + 1)
-    val left = (position._1 - 1, position._2)
+  private def fits(piece: Piece, position: Position, partialSolution: List[(Position, Piece)]): Boolean = {
+    val (x, y) = position
+    val up = (x, y - 1)
+    val right = (x + 1, y)
+    val down = (x, y + 1)
+    val left = (x - 1, y)
     val matches: List[Boolean] = partialSolution.collect {
-      case (pos, upPiece) if pos == up => upPiece.down.connectsWith(piece.up)
-      case (pos, rightPiece) if pos == right => rightPiece.left.connectsWith(piece.right)
-      case (pos, downPiece) if pos == down => downPiece.up.connectsWith(piece.down)
-      case (pos, leftPiece) if pos == left => leftPiece.right.connectsWith(piece.left)
+      case (`up`, upPiece) => upPiece.down.connectsWith(piece.up)
+      case (`right`, rightPiece) => rightPiece.left.connectsWith(piece.right)
+      case (`down`, downPiece) => downPiece.up.connectsWith(piece.down)
+      case (`left`, leftPiece) => leftPiece.right.connectsWith(piece.left)
     }
-    // All matches are true.
+    // All matches must be true.
     matches.forall(identity)
   }
 }
