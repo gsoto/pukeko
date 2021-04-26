@@ -29,7 +29,7 @@ object PuzzleSolver {
           .flatMap { rotation =>
             val remainingPieces = pieces.filterNot(piece.equals)
             val remainingPositions = positions.tail
-            val expandedPartialSolution = partialSolution :+ (nextPosition, rotation)
+            val expandedPartialSolution = partialSolution.appended((nextPosition, rotation))
             solutions(remainingPieces, remainingPositions, expandedPartialSolution)
           }
       }

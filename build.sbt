@@ -1,7 +1,18 @@
-ThisBuild / scalaVersion := "2.13.5"
-ThisBuild / organization := "dev.gsoto"
+scalaVersion := "2.13.5"
+organization := "dev.gsoto"
+name := "pukeko"
 
-lazy val hello = (project in file("."))
-  .settings(
-    name := "pukeko"
-  )
+scalacOptions ++= Seq(
+  "-feature",
+  "-unchecked",
+  "-deprecation",
+  "-encoding", "utf-8",
+  "-explaintypes",
+  "-Xcheckinit",
+  "-Xfatal-warnings",
+  "-Xlint",
+  "-Wdead-code",
+  "-Wnumeric-widen",
+  "-Wunused",
+  "-Wvalue-discard",
+)
