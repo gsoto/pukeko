@@ -1,0 +1,78 @@
+= Solution to Pukeko Crazy Game
+Gabriel Soto <gsoto@gmail.com>
+:stem:
+:imagesdir: img
+:toc:
+:toclevels: 1
+
+If you stumbled upon this page, there's a good chance you are in possession of one of these:
+
+.Pukeko Crazy Game
+image::pukeko.jpg[Pukeko Crazy Game]
+
+I don't know much about the origin of this game. The box points to http://www.derekcorp.co.nz[www.derekcorp.co.nz], a custom souvenir manufacturer in New Zealand. I received this copy from a friend, who got it from another friend. The only information provided was that no one was able to solve it so far.
+
+== About the puzzle
+
+The puzzle is made of 16 square pieces depicting https://en.wikipedia.org/wiki/Australasian_swamphen[_pukekos_] (a species of bird found in New Zealand).
+
+There is a half pukeko printed on each of the four edges of a piece, showing either its head or legs. A total of five different (although frustratingly similar) "models" are present across all the pieces. Joining the right pieces will complete a full bird.
+
+.The five models of pukekos
+image::pukeko_pieces.jpg[The five types of pukekos]
+
+**The goal is to arrange the pieces in a 4 by 4 square so that all illustrations across pieces line up.**
+
+Additionally:
+
+- Two of the pieces are identical.
+- There is only one appearance of the "Z" pukeko, which makes you think it's a good starting point for solving the puzzle.
+
+Your first instinct when you approach this puzzle is to pick random pieces one by one and place them matching the already placed pieces. After a lot of messing around, you may reach a partial solution where only one or two pieces of the square are missing, but the pieces left won't fit.
+
+Most people quickly reach the conclusion that there are too many possible arrangements and the game is too tedious to even bother trying to solve it.
+
+Indeed, the number of possible placements is astronomic:
+
+stem:[(16! xx 4^16) / (2 xx 4) = 1.1232837 xx 10^22]
+
+(we divide by 2 because there are two identical pieces, and by 4 to exclude rotations)
+
+// TODO talk about Scramble Squares
+
+== Solution
+
+The puzzle has **41 unique solutions**, once you exclude duplicates (i.e. solutions where identical pieces are switched) and rotations (i.e. solutions that are constructed by rotating other solutions).
+
+If you just want to see a solution, look link:solution/solution.jpg[here].
+
+If you want to examine all solutions, you can find the output of the program in plain text link:solution/solutions.txt[here].
+
+== The program
+
+The algorithm does a simple depth-first search (backtracking) through a recursive function.
+
+// TODO placement strategy
+
+.Placement sequence
+image::placement.png[Placement sequence, 300]
+
+=== Instructions
+
+Requires https://www.scala-sbt.org/[SBT]
+
+Clone (or download) this repo:
+
+----
+$ git clone https://github.com/gsoto/pukeko.git
+----
+
+Run:
+
+----
+$ sbt run
+----
+If you are getting strange output characters on Windows, try:
+----
+> chcp 65001
+----
