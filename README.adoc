@@ -4,15 +4,19 @@ Gabriel Soto <gsoto@gmail.com>
 :imagesdir: img
 :toc:
 :toclevels: 1
+:toc-placement!:
+:toc-title!:
 
 If you stumbled upon this page, there's a good chance you are in possession of one of these:
 
 .Pukeko Crazy Game
-image::pukeko.jpg[Pukeko Crazy Game]
+image::pukeko.jpg[Pukeko Crazy Game, 75%]
 
-I don't know much about the origin of this game. The box points to http://www.derekcorp.co.nz[www.derekcorp.co.nz], a custom souvenir manufacturer in New Zealand. I received this copy from a friend, who got it from another friend. The only information provided was that no one was able to solve it so far.
+toc::[]
 
 == About the puzzle
+
+I don't know much about the origin of this game. The box points to http://www.derekcorp.co.nz[www.derekcorp.co.nz], a custom souvenir manufacturer in New Zealand. I received this copy from a friend, who got it from another friend. The only information provided was that no one was able to solve it so far.
 
 The puzzle is made of 16 square pieces depicting https://en.wikipedia.org/wiki/Australasian_swamphen[_pukekos_] (a species of bird found in New Zealand).
 
@@ -36,6 +40,8 @@ Indeed, the number of possible placements is astronomic:
 
 stem:[(16! xx 4^16) / (2 xx 4) = 1.1232837 xx 10^22]
 
+<img src="https://render.githubusercontent.com/render/math?math=e^{i \pi} = -1">
+
 (we divide by 2 because there are two identical pieces, and by 4 to exclude rotations)
 
 // TODO talk about Scramble Squares
@@ -57,7 +63,7 @@ The algorithm does a simple depth-first search (backtracking) through a recursiv
 .Placement sequence
 image::placement.png[Placement sequence, 300]
 
-=== Instructions
+== Instructions
 
 Requires https://www.scala-sbt.org/[SBT]
 
@@ -72,7 +78,9 @@ Run:
 ----
 $ sbt run
 ----
+
 If you are getting strange output characters on Windows, try:
+
 ----
 > chcp 65001
 ----
