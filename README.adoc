@@ -26,7 +26,7 @@ image::pukeko_pieces.jpg[The five types of pukekos]
 
 '''
 
-**The goal is to arrange the pieces in a 4 by 4 square so that all illustrations across pieces line up.**
+**The goal is to arrange the pieces in a 4 × 4 square so that all illustrations across pieces line up.**
 
 Additionally:
 
@@ -37,13 +37,13 @@ Your first instinct when you approach this puzzle is to pick random pieces one b
 
 Most people quickly reach the conclusion that there are too many possible arrangements and the game is too tedious to even bother trying to solve it.
 
-Indeed, the number of possible placements is astronomic:
+Indeed, the number of possible piece combinations is astronomic:
 
 16! 4^16^ / 2 / 4 = **1.1232837 × 10^22^**
 
 (we divide by 2 because there are two identical pieces, and by 4 to exclude rotations)
 
-Furthermore, there doesn't seem to be any great heuristics much better than brute force; so I decided that I would better program the solution, at least I could have some fun this way.
+Furthermore, there doesn't seem to be any great heuristics much better than brute force. I decided that I would better program the solution; at least I could have some fun this way.
 
 // TODO talk about Scramble Squares
 
@@ -51,15 +51,17 @@ Furthermore, there doesn't seem to be any great heuristics much better than brut
 
 The puzzle has **41 unique solutions**, once you exclude duplicates (i.e. solutions where identical pieces are switched) and rotations (i.e. solutions that are constructed by rotating other solutions).
 
+// Z pukeko
+
 If you just want to see one solution, look link:solution/solution.jpg[here].
 
 If you want to examine all solutions, you can find the output of the program in plain text link:solution/solutions.txt[here].
 
 == The program
 
-The algorithm does a depth-first search (backtracking) through a recursive function.
+I coded the solution in Scala. The algorithm does a depth-first search (backtracking) through a recursive function.
 
-The API is generic enough to model most puzzles of this class. It receives an arbitrary list of pieces and a sequence of positions (as integer coordinates) that make the "board". The sequence doesn't have to form a square, so other arrangements are possible. The backtracking function tries to fit the pieces in order following the provided placements.
+The API is generic enough to model most puzzles of this class. It receives an arbitrary list of pieces and a sequence of positions (as integer coordinates) that make the "board". The sequence doesn't have to form a square, so other arrangements are possible. The backtracking function tries to fit the pieces in order following the provided sequence of positions.
 
 I found that the best strategies are sequences that maximize early adjacency, i.e. where each piece is placed adjacent to the most other pieces already placed. This can be achieved by spiraling out from the center of the square.
 
@@ -89,5 +91,5 @@ $ sbt run
 If you are getting strange output characters on Windows, try:
 
 ----
-> chcp 65001
+$ chcp 65001
 ----
