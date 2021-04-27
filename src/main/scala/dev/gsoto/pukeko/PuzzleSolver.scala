@@ -4,8 +4,8 @@ object PuzzleSolver {
 
   /**
    * A position (column, row) in the board where a piece should be placed.
-   * column number goes up to the right
-   * row number goes up
+   * Column number increases going right.
+   * Row number increases going down.
    */
   type Position = (Int, Int)
 
